@@ -11,7 +11,12 @@
 </head>
 <body>
   <nav class="navbar">
-    <ul>
+    <button class="nav-toggle" aria-label="Open navigation" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <ul class="nav-list">
       <li><a href="#">Home</a></li>
       <li><a href="#">Top 100</a></li>
       <li><a href="#">Artists</a></li>
@@ -19,6 +24,7 @@
       <li><a href="#">Premium</a></li>
     </ul>
   </nav>
+  <div class="nav-overlay" aria-hidden="true"></div>
   <section class="hero">
     <canvas id="starCanvas"></canvas>
     <div class="hero-content">
@@ -45,5 +51,38 @@
     </div>
   </section>
   <script src="stars.js"></script>
+  <script>
+    (function () {
+      const toggle = document.querySelector('.nav-toggle');
+      const list = document.querySelector('.nav-list');
+      const overlay = document.querySelector('.nav-overlay');
+
+      function openNav() {
+        toggle.setAttribute('aria-expanded', 'true');
+        toggle.setAttribute('aria-label', 'Close navigation');
+        list.classList.add('is-open');
+        overlay.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeNav() {
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-label', 'Open navigation');
+        list.classList.remove('is-open');
+        overlay.classList.remove('is-open');
+        document.body.style.overflow = '';
+      }
+
+      toggle.addEventListener('click', function () {
+        toggle.getAttribute('aria-expanded') === 'true' ? closeNav() : openNav();
+      });
+
+      overlay.addEventListener('click', closeNav);
+
+      list.querySelectorAll('a').forEach(function (a) {
+        a.addEventListener('click', closeNav);
+      });
+    })();
+  </script>
 </body>
 </html>
